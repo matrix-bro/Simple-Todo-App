@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+</head>
+<body>
+    <h1>Todo Lists</h1>
+    {% if todolists %}                      
+        {% for todo in todolists %}
+            <form method="POST" id="todo_form_{{ todo.id }}">
+                {% csrf_token %}   
+                <input type="hidden" name="todo_id" value="{{ todo.id }}">
+                {% if todo.status == False %}                    
+                    <input type="checkbox" name="todo_status" id="incomplete" value="incomplete" onchange="document.getElementById('todo_form_{{ todo.id }}').submit()">
+                    {{ todo.task_name }}
+                {% else %}
+                    <input type="checkbox" checked name="todo_status" id="complete" value="complete" onchange="document.getElementById('todo_form_{{ todo.id }}').submit()">
+                    <del>{{ todo.task_name }}</del>
+                {% endif %}
+            
+                                      
+                <br>
+            </form>
+        {% endfor %}        
+    {% endif %}
+</body>
+</html>
